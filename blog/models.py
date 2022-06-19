@@ -16,3 +16,12 @@ class Article(models.Model):
     
     def __str__(self):
         return f"{self.user.username} 님이 작성하신 글입니다."
+
+
+
+class Comment(models.Model):
+    def __str__(self):
+        return f"{self.user.username} 님 댓글입니다."
+    article = models.ForeignKey(Article,verbose_name="원글", on_delete=models.CASCADE)
+    user = models.ForeignKey('user.User',verbose_name="작성자", on_delete=models.CASCADE)
+    content = models.TextField("댓글 내용")

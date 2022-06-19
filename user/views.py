@@ -4,14 +4,16 @@ from rest_framework import permissions
 from rest_framework.response import Response
 
 from django.contrib.auth import login, logout, authenticate
+from user.serializers import UserSerializer
 
 
 class UserView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     # 사용자 정보 조회
     def get(self, request):
-        return Response({"message": "get method"})
+        user = request.user
+        return Response(UserSerializer(user).data)
 
     # 회원가입
     def post(self, request):
