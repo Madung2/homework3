@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     # for django rest framework
     'rest_framework',
-
+    'product',
     'user',
     'blog',
 ]
