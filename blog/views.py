@@ -1,5 +1,3 @@
-import statistics
-from telnetlib import STATUS
 from rest_framework.views import APIView
 from rest_framework import permissions, status
 from rest_framework.response import Response
@@ -26,7 +24,7 @@ class ArticleView(APIView):
         articles = ArticleModel.objects.filter(
             user=user, expire_date__gt=datetime.now()).order_by('-id')
         titles = [article.title for article in articles]  # list 축약 문법
-        
+
         return Response({"titles": titles})
 
     def post(self, request):
@@ -36,19 +34,7 @@ class ArticleView(APIView):
         if article_serializer.is_valid():
             article_serializer.save()
             return Response(article_serializer.data, status=status.HTTP_200_OK)
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return Response(article_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
         '''
@@ -64,7 +50,7 @@ class ArticleView(APIView):
         # # print(len(category))
         # # print(len(title))
 
-        # if len(title) < 6 or len(contents) < 21:
+        # if len(title) < 6 or len(contents) < 11:
         #     return Response({"message": "게시글을 작성할 수 없습니다"})
         # if not category:
         #     return Response({"message": "카테고리를 지정해야 합니다"})
