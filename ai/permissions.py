@@ -31,3 +31,12 @@ class IsAuthenticatedOrReadOnly(BasePermission):
             request.method in SAFE_METHODS or
             request.user and request.user.is_authenticated
         )
+        
+        
+class ThreeDayUserCanWrite(BasePermission):
+    def has_permission(self,request,view):
+        user = request.user
+        return bool(
+            (request.method in SAFE_METHODS) or
+            (request.user and datetime.now().date() - user.join_date >= timedelta(days=3))
+        )
