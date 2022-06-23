@@ -35,10 +35,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     userprofile = UserProfileSerializer(read_only=True)
-    article = ArticleSerializer(
-        many=True, source="article_set", read_only=True)  # 역참조
-    comment = CommentSerializer(
-        many=True, source="comment_set", read_only=True)  # 역참조
+    article = ArticleSerializer(many=True, source="article_set", read_only=True)  # 역참조
+    comment = CommentSerializer(many=True, source="comment_set", read_only=True)  # 역참조
 
     # def validate(self, data): #is_valid에서 검증하는 것
     #     print(data) #ordered dic: [('username', 'tulip3'), ('password', '1234'), ('email', 'tulip1@naver.com'), ('fullname', '한시원')]

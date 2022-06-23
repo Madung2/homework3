@@ -15,8 +15,8 @@ class ProductView(APIView):
 
     def get(self, request):
         today = datetime.now()
-        products = ProductModel.objects.filter(Q(posting_date__lte=today, expire_date__gte=today) |
-                                               Q(user=request.user))
+        products = ProductModel.objects.filter(
+            posting_date__lte=today, expire_date__gte=today).filter(user=request.user)
         product = [product.title for product in products]  # list 축약 문법
 
         return Response({"product": product})
@@ -25,6 +25,7 @@ class ProductView(APIView):
         user = request.user
         request.data['user'] = user.id
         product_serializer = ProductSerializer(data=request.data)
+
         if product_serializer.is_valid():
             product_serializer.save()
             return Response(product_serializer.data, status=status.HTTP_200_OK)
@@ -42,7 +43,7 @@ class ProductView(APIView):
             return Response(product_serializer.data, status=status.HTTP_200_OK)
         return Response(product_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, obj_id):
-        event = ProductModel.objects.get(id=obj_id)
-        event.delete()
-        return Response(product_serializer.data, status=status.HTTP_200_OK)
+    # def delete(self, request, obj_id):
+    #     event = ProductModel.objects.get(id=obj_id)
+    #     event.delete()
+    #     return Response(, status=status.HTTP_200_OK)
